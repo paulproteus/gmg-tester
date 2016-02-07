@@ -4,8 +4,6 @@ set -euo pipefail
 # <nginx>
 mkdir -p /var/lib/nginx
 mkdir -p /var/log/nginx
-# Wipe /var/run, since pidfiles and socket files from previous launches should go away
-# TODO someday: I'd prefer a tmpfs for these.
 rm -rf /var/run
 mkdir -p /var/run
 # </nginx>
@@ -21,7 +19,19 @@ mkdir -p /var/tmp
 # <test suite>
 echo '<pre>' >> /var/internal-www/index.html
 date -R >> /var/internal-www/index.html
-( cd /opt/app/mediagoblin-unpacked ; ./runtests.sh -p no:cacheprovider >> /var/internal-www/index.html 2>&1 ; echo '</pre>' >> /var/internal-www/index.html ) &
+
+function setup() {
+  cd /tmp
+  rm -rf "$1"
+  git clone /opt/app/mediagoblin-unpacked "$1"
+  cd "$1"
+  virtualenv --system-site-packages .
+  bin/pip install --editable . --no-index --find-links=/opt/app/wheelhouse
+}
+
+setup /var/writeable-gmg
+
+( cd /var/writeable-gmg ; ./runtests.sh  >> /var/internal-www/index.html 2>&1 ; echo '</pre>' >> /var/internal-www/index.html ) &
 # </test>
 
 # Start nginx.
