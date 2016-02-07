@@ -10,20 +10,15 @@ cd /opt/app
 # This particular script does nothing at present, but you should adapt it
 # sensibly for your package.
 
-if [ ! -f /opt/app/gmg.tar.gz ] ; then
-  echo "Downloading GMG tarball..."
-  wget -q http://mediagoblin.org/download/mediagoblin-0.8.1.tar.gz -O /opt/app/gmg.tar.gz.tmp
-  mv /opt/app/gmg.tar.gz.tmp /opt/app/gmg.tar.gz
-  echo "done."
-  echo ""
-fi
-
+# It used to be the case that we thought we wanted a tarball install of GMG...
+# ...but GMG from tarball seems to fail its tests, so that is no use. Getting from
+# git...
 if [ ! -d /opt/app/mediagoblin-unpacked ] ; then
-  echo "Unpacking..."
-  mkdir -p mediagoblin-unpacked.tmp
-  cd mediagoblin-unpacked.tmp
-  tar zxf /opt/app/gmg.tar.gz
-  mv mediagoblin-0.8.1 /opt/app/mediagoblin-unpacked
+  git clone http://git.savannah.gnu.org/cgit/mediagoblin.git/ /opt/app/mediagoblin-unpacked
+  cd /opt/app/mediagoblin-unpacked
+  echo ""
+  echo "TODO: For now, you are going to have to work around one test failure, see IRC logs"
+  echo ""
   echo "done."
   echo ""
 fi
