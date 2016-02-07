@@ -1,24 +1,28 @@
 #!/bin/bash
 set -euo pipefail
 
+# <nginx>
 mkdir -p /var/lib/nginx
 mkdir -p /var/log/nginx
 # Wipe /var/run, since pidfiles and socket files from previous launches should go away
 # TODO someday: I'd prefer a tmpfs for these.
 rm -rf /var/run
 mkdir -p /var/run
+# </nginx>
 
-mkdir -p /var/tmp
-
+# <www internal>
 mkdir -p /var/internal-www
+# </www>
 
-rm -rf /var/code
-#mkdir -p /var/code
-#cd /var/code
-#cp -a /opt/app/mediagoblin-unpacked .
+# <python support>
+mkdir -p /var/tmp
+# </python>
+
+# <test suite>
 echo '<pre>' >> /var/internal-www/index.html
 date -R >> /var/internal-www/index.html
 ( cd /opt/app/mediagoblin-unpacked ; ./runtests.sh -p no:cacheprovider >> /var/internal-www/index.html 2>&1 ; echo '</pre>' >> /var/internal-www/index.html ) &
+# </test>
 
 # Start nginx.
 /usr/sbin/nginx -c /opt/app/.sandstorm/service-config/nginx.conf -g "daemon off;"
