@@ -11,9 +11,14 @@ mkdir -p /var/run
 mkdir -p /var/tmp
 
 mkdir -p /var/internal-www
+
+rm -rf /var/code
+#mkdir -p /var/code
+#cd /var/code
+#cp -a /opt/app/mediagoblin-unpacked .
 echo '<pre>' >> /var/internal-www/index.html
 date -R >> /var/internal-www/index.html
-( cd /opt/app/mediagoblin-unpacked ; ./runtests.sh >> /var/internal-www/index.html 2>&1 ; echo '</pre>' >> /var/internal-www/index.html ) &
+( cd /opt/app/mediagoblin-unpacked ; ./runtests.sh -p no:cacheprovider >> /var/internal-www/index.html 2>&1 ; echo '</pre>' >> /var/internal-www/index.html ) &
 
 # Start nginx.
 /usr/sbin/nginx -c /opt/app/.sandstorm/service-config/nginx.conf -g "daemon off;"

@@ -28,6 +28,9 @@ if [ ! -d /opt/app/mediagoblin-unpacked ] ; then
   echo ""
 fi
 
+# pytest workaround, see https://github.com/pytest-dev/pytest/issues/1342
+find /opt/app/mediagoblin-unpacked -type d | grep -v node_modules | grep -v -F .cache | xargs -n1 -I '{}' mkdir -v -p '{}/.cache'
+
 cd /opt/app/mediagoblin-unpacked
 ./bootstrap.sh
 ./configure
