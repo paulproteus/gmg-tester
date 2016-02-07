@@ -4,7 +4,7 @@ This is a Sandstorm app that runs the GNU MediaGoblin tests.
 
 Current status:
 
-**pre-v0.0.0***
+**pre-v0.0.0**
 
 ### v0.0.0
 
