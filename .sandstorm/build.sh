@@ -57,7 +57,6 @@ bin/pip wheel --wheel-dir=/opt/app/wheelhouse .
 
 # </python>
 
-# FIXME: We might need to do the same with extlib, but then again, we can probably avoid doing it since
-# the tests are pure Python.
+# Note: We ignore extlib, since the GMG test suite only tests Python code.
 
 exit 0
