@@ -21,14 +21,14 @@ echo '<pre>' >> /var/internal-www/index.html
 date -R >> /var/internal-www/index.html
 
 function setup() {
-  echo 1
+  echo 'Beginning setup...' >> /var/internal-www/index.html
   cd /tmp
   rm -rf "$1"
   git clone /opt/app/mediagoblin-unpacked "$1"
   cd "$1"
   virtualenv --system-site-packages .
   bin/pip install --editable . --no-index --find-links=/opt/app/wheelhouse
-  echo 2
+  echo '...setup done.' >> /var/internal-www/index.html
 }
 
 setup /var/writeable-gmg
