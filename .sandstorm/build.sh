@@ -53,6 +53,7 @@ mkdir -p /opt/app/wheelhouse
 # Since we have pip from Debian, let us get wheel from Debian as well.
 sudo apt-get install python-wheel
 
+# Cache the wheels away into the wheelhouse
 bin/pip wheel --wheel-dir=/opt/app/wheelhouse .
 
 # </python>

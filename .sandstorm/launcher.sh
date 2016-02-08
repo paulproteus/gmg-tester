@@ -21,17 +21,29 @@ echo '<pre>' >> /var/internal-www/index.html
 date -R >> /var/internal-www/index.html
 
 function setup() {
+  echo 1
   cd /tmp
   rm -rf "$1"
   git clone /opt/app/mediagoblin-unpacked "$1"
   cd "$1"
   virtualenv --system-site-packages .
   bin/pip install --editable . --no-index --find-links=/opt/app/wheelhouse
+  echo 2
 }
 
 setup /var/writeable-gmg
 
-( cd /var/writeable-gmg ; ./runtests.sh  >> /var/internal-www/index.html 2>&1 ; echo '</pre>' >> /var/internal-www/index.html ) &
+(
+  cd /var/writeable-gmg ;
+  # Allow bootstrap.sh to fail with git submodule errors.
+  bash -x ./bootstrap.sh >> /var/internal-www/index.html 2>&1 || true ;
+  ./configure >> /var/internal-www/index.html 2>&1 ;
+  # Call the translations script directly because `make i18n` insits on fetching bower
+  # etc. but we don't care to do that.
+  ./devtools/compile_translations.sh >> /var/internal-www/index.html 2>&1 ;
+  ./runtests.sh  >> /var/internal-www/index.html 2>&1 ;
+  echo '</pre>' >> /var/internal-www/index.html
+) &
 # </test>
 
 # Start nginx.
