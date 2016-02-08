@@ -10,7 +10,7 @@ This is a Sandstorm app that runs the GNU MediaGoblin tests.
 
 - `vagrant-spk up`
 
-- `vagrant-spk dev`
+- `vagrant-spk dev` then **make sure to visit the app in a browser** at local.sandstorm.io:6080 and create a grain!
 
 - `export NEW_PUB_KEY=$(spk keygen)`
 
