@@ -1,5 +1,25 @@
 This is a Sandstorm app that runs the GNU MediaGoblin tests.
 
+## How to build
+
+- [Install vagrant-spk](https://docs.sandstorm.io/en/latest/vagrant-spk/installation/)
+
+- `git clone https://github.com/paulproteus/gmg-tester`
+
+- `cd gmg-tester`
+
+- `vagrant-spk up`
+
+- `vagrant-spk dev`
+
+- `export NEW_PUB_KEY=$(spk keygen)`
+
+- `sed -i "s,mtxy58x9sy8dq7d3jgp1uw1m7cv0y71wj396pmguay6uf2n2vtyh,$NEW_PUB_KEY," .sandstorm/sandstorm-pkgdef.capnp`
+
+- `vagrant-spk pack output.spk`
+
+- Now you have `output.spk` and can run it anywhere.
+
 ## Roadmap
 
 Current status:
